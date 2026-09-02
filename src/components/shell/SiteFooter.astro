@@ -1,0 +1,28 @@
+---
+import { features, siteConfig, sources } from '../../config/index.ts';
+
+const analyticsEnabled = features.analytics && Boolean(import.meta.env.PUBLIC_GA4_ID?.trim());
+const officialSite = sources.find((source) => source.id === 'official-site');
+const steam = sources.find((source) => source.id === 'steam-store');
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <strong>{siteConfig.name}</strong>
+      <p>{siteConfig.disclaimer}</p>
+      <p class="footer-proof">Facts are dated to their last official verification. Search and community signals never replace a factual source.</p>
+    </div>
+    <div class="footer-links">
+      <nav aria-label="Official destinations">
+        {officialSite && <a href={officialSite.url} rel="noreferrer">Official game site</a>}
+        {steam && <a href={steam.url} rel="noreferrer">Official Steam page</a>}
+      </nav>
+      <nav aria-label="Legal">
+        <a href="/privacy/">Privacy</a>
+        {analyticsEnabled && <button id="analytics-choices" type="button">Analytics choices</button>}
+        <a href="/terms/">Terms</a>
+      </nav>
+    </div>
+  </div>
+</footer>

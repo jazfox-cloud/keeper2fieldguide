@@ -1,0 +1,15 @@
+import type { KeywordRecord, ResearchTask } from '../config/schema.ts';
+
+export const keywords: KeywordRecord[] = [
+  { id: 'keyword:graveyard-keeper-2', representative: 'Graveyard Keeper 2 guide', demandSource: 'SEARCH_SIGNAL', userTask: 'Get the current game overview and choose a verified answer.', owner: 'home', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Any official game or store change.' },
+  { id: 'keyword:release-date', representative: 'Graveyard Keeper 2 release date', demandSource: 'SEARCH_SIGNAL', userTask: 'Check launch date, price, and pre-order state.', owner: 'release-date', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Date, price, promotion, or store-state change.' },
+  { id: 'keyword:system-requirements', representative: 'Graveyard Keeper 2 system requirements', demandSource: 'SEARCH_SIGNAL', userTask: 'Compare a Windows PC with official requirements.', owner: 'system-requirements', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Steam requirement or OS change.' },
+  { id: 'keyword:platforms', representative: 'Graveyard Keeper 2 platforms', demandSource: 'SEARCH_SIGNAL', userTask: 'Find the confirmed PC and console destinations.', owner: 'platforms', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Official SKU or platform feature change.' },
+  { id: 'keyword:multiplayer', representative: 'is Graveyard Keeper 2 multiplayer', demandSource: 'SEARCH_SIGNAL', userTask: 'Determine whether co-op or multiplayer is officially supported.', owner: 'multiplayer', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Official player-count or feature change.' },
+  { id: 'keyword:gameplay', representative: 'Graveyard Keeper 2 gameplay', demandSource: 'SEARCH_SIGNAL', userTask: 'Understand confirmed gameplay systems and current unknowns.', owner: 'gameplay', evidenceCompleteness: 'COMPLETE', directAnswer: 'SATISFIED', updateTrigger: 'Official devlog, trailer, or released-build verification.' },
+  { id: 'keyword:recipes', representative: 'Graveyard Keeper 2 recipes', demandSource: 'SEARCH_SIGNAL', userTask: 'Follow exact crafting recipes.', owner: 'RESEARCH_BACKLOG', evidenceCompleteness: 'BLOCKED', directAnswer: 'RESEARCH_REQUIRED', updateTrigger: 'Released build and reproducible first-hand testing.' },
+];
+
+export const researchBacklog: ResearchTask[] = [
+  { taskId: 'release-build-recipes', keywordId: 'keyword:recipes', goal: 'Verify exact recipe inputs and outputs in the released build.', invalidOrMissingField: 'Released version, recipe inputs, outputs, and repeatable acquisition path', sourceCandidates: ['Owned released-build capture'], collectionMethod: 'Record each recipe in a clean save with version visible.', validationMethod: 'Repeat on a second save and compare results.', completionCriteria: 'Versioned, repeatable recipe evidence with screenshots or video.', unblockCondition: 'Released build is available and evidence review passes.', publicationState: 'BLOCKED' },
+];

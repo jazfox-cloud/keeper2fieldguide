@@ -1,0 +1,42 @@
+---
+import SeoHead from '../components/seo/SeoHead.astro';
+import AnalyticsConsent from '../components/analytics/AnalyticsConsent.astro';
+import SiteHeader from '../components/shell/SiteHeader.astro';
+import SiteFooter from '../components/shell/SiteFooter.astro';
+import { features } from '../config/features.config.ts';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description, path, schema = [], noindex = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SeoHead title={title} description={description} path={path} schema={schema} noindex={noindex} />
+  </head>
+  <body>
+    <!--
+      THESIS: A night-shift restoration survey makes every pre-launch answer inspectable; it refuses the generic gaming hero plus equal-card grid.
+      OWN-WORLD: Charcoal survey boards, muted-violet work zones, ochre registration marks, docket tabs, ruled evidence tables, and quiet paper-white type.
+      STORY: Identify the game through official media, read the current answer, inspect its evidence, then move to one of six stable task owners.
+      FIRST VIEWPORT: A large title and launch docket occupy the left field; the official trailer is the right-side site record; the official destination sits beside the answer.
+      FORM: Restoration condition survey, grounded direction six, seed f8e3541a.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+    -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader />
+    <main id="main-content">
+      <slot />
+    </main>
+    <SiteFooter />
+    {features.analytics && <AnalyticsConsent />}
+  </body>
+</html>

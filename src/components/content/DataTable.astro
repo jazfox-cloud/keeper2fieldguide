@@ -1,0 +1,22 @@
+---
+import type { SourceRecord } from '../../config/schema.ts';
+interface Props {
+  caption: string;
+  headers: string[];
+  rows: { cells: string[]; sourceIds: string[] }[];
+  sources: SourceRecord[];
+}
+const { caption, headers, rows, sources } = Astro.props;
+const sourceById = new Map(sources.map((source) => [source.id, source]));
+---
+
+<div class="table-scroll" tabindex="0" role="region" aria-label={caption}>
+  <table class="data-table">
+    <caption>{caption}</caption>
+    <thead><tr>{headers.map((header) => <th scope="col">{header}</th>)}<th scope="col">Official source</th></tr></thead>
+    <tbody>{rows.map((row) => <tr>{row.cells.map((cell, index) => index === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>)}<td>{row.sourceIds.map((id, index) => {
+      const source = sourceById.get(id);
+      return source && <><a href={source.url} rel="noreferrer">{source.label}</a>{index < row.sourceIds.length - 1 ? ', ' : ''}</>;
+    })}</td></tr>)}</tbody>
+  </table>
+</div>

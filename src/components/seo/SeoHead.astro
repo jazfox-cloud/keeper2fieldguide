@@ -1,0 +1,33 @@
+---
+import { siteConfig } from '../../config/index.ts';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description, path, schema = [], noindex = false } = Astro.props;
+const canonical = new URL(path, siteConfig.origin).toString();
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<link rel="canonical" href={canonical} />
+<link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon" />
+<link rel="icon" type="image/png" sizes="32x32" href="/brand/favicon-32.png?v=3" />
+<link rel="icon" type="image/png" sizes="16x16" href="/brand/favicon-16.png?v=3" />
+<link rel="icon" type="image/png" sizes="192x192" href="/brand/favicon-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="/brand/favicon-512.png" />
+<link rel="apple-touch-icon" sizes="192x192" href="/brand/favicon-192.png?v=3" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta name="twitter:card" content="summary" />
+<title>{title}</title>
+{schema.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}

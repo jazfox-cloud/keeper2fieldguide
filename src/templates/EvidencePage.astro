@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/content/Breadcrumbs.astro';
+import DataTable from '../components/content/DataTable.astro';
+import FactTable from '../components/content/FactTable.astro';
+import FaqList from '../components/content/FaqList.astro';
+import RelatedLinks from '../components/content/RelatedLinks.astro';
+import OfficialMedia from '../components/media/OfficialMedia.astro';
+import LastVerified from '../components/evidence/LastVerified.astro';
+import SourceList from '../components/evidence/SourceList.astro';
+import { sources } from '../config/index.ts';
+import type { RouteConfig } from '../config/schema.ts';
+import type { PageDefinition } from '../data/page-content.ts';
+import { facts } from '../data/facts.ts';
+import { media } from '../data/media.ts';
+import type { FactRecord, SourceRecord } from '../config/schema.ts';
+
+interface Props { route: RouteConfig; content: PageDefinition }
+const { route, content } = Astro.props;
+const visibleFacts = content.factIds.map((id) => facts.find((fact) => fact.id === id)).filter((fact): fact is FactRecord => Boolean(fact));
+const visibleSources = content.sourceIds.map((id) => sources.find((source) => source.id === id)).filter((source): source is SourceRecord => Boolean(source));
+const visibleMedia = (content.mediaIds ?? []).map((id) => media.find((item) => item.id === id)).filter((item) => Boolean(item));
+---
+
+<BaseLayout title={route.title} description={route.description} path={route.path}>
+  <article class="evidence-page shell">
+    <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: content.heading }]} />
+    <header class="answer-header">
+      <h1>{content.heading}</h1>
+      <p class="direct-answer">{content.answer}</p>
+      <p class="answer-summary">{content.summary}</p>
+      <LastVerified date="2026-09-01" version="Pre-release" />
+    </header>
+    <FactTable facts={visibleFacts} sources={sources} caption="Verified answer record" />
+    {visibleMedia.length > 0 && <section class="content-section evidence-visuals" aria-labelledby="official-visual-heading">
+      <h2 id="official-visual-heading">Official gameplay view</h2>
+      <div class="visual-ledger visual-ledger--single">
+        {visibleMedia.map((item) => {
+          const source = item && sources.find((entry) => entry.id === item.sourceId);
+          return item && source && <OfficialMedia media={item} source={source} />;
+        })}
+      </div>
+    </section>}
+    {content.table && <section class="content-section"><h2>{content.table.caption}</h2><DataTable {...content.table} sources={sources} /></section>}
+    {content.sections.map((section) => <section class="content-section">
+      <h2>{section.heading}</h2>
+      {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      {section.bullets && <ul>{section.bullets.map((item) => <li>{item}</li>)}</ul>}
+    </section>)}
+    <FaqList items={content.faqs} />
+    <SourceList sources={visibleSources} />
+    <RelatedLinks links={content.related} />
+  </article>
+</BaseLayout>

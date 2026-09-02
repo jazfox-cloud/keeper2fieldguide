@@ -1,0 +1,24 @@
+---
+import type { FactRecord, SourceRecord } from '../../config/schema.ts';
+
+interface Props { facts: FactRecord[]; sources: SourceRecord[]; caption?: string }
+const { facts, sources, caption = 'Verified facts' } = Astro.props;
+const sourceById = new Map(sources.map((source) => [source.id, source]));
+---
+
+<div class="table-scroll" tabindex="0" role="region" aria-label={caption}>
+  <table class="fact-table">
+    <caption>{caption}</caption>
+    <thead><tr><th scope="col">Field</th><th scope="col">Current answer</th><th scope="col">Evidence</th></tr></thead>
+    <tbody>
+      {facts.map((fact) => <tr>
+        <th scope="row">{fact.label}</th>
+        <td>{Array.isArray(fact.value) ? fact.value.join(' · ') : String(fact.value)}{fact.boundary && <small>{fact.boundary}</small>}</td>
+        <td>{fact.sourceIds.map((id, index) => {
+          const source = sourceById.get(id);
+          return source && <><a href={source.url} rel="noreferrer">{source.label}</a>{index < fact.sourceIds.length - 1 ? ', ' : ''}</>;
+        })}<small>Verified {fact.lastVerified}</small></td>
+      </tr>)}
+    </tbody>
+  </table>
+</div>

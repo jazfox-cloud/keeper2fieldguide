@@ -1,0 +1,57 @@
+---
+import type { MediaRecord, SourceRecord } from '../../config/schema.ts';
+
+interface Props { poster: MediaRecord; posterSource: SourceRecord }
+const { poster, posterSource } = Astro.props;
+---
+
+<figure class="official-video">
+  <div class="video-frame" data-video-frame>
+    <div class="video-placeholder">
+      <img
+        class="video-poster"
+        src={poster.assetPath}
+        width={poster.width}
+        height={poster.height}
+        alt={poster.alt}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+      <p class="video-label"><span>Official trailer record</span><strong>Graveyard Keeper 2</strong><small>tinyBuild · external video</small></p>
+      <button class="video-load" type="button" data-video-load data-src="https://www.youtube-nocookie.com/embed/KZ6VRXqGEws?autoplay=1">
+        <svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><path d="M17 12v24l20-12-20-12Z" fill="currentColor"/></svg>
+        <span>Load official trailer</span>
+      </button>
+      <small class="video-privacy-note">Loads the privacy-enhanced YouTube player after your click.</small>
+    </div>
+  </div>
+  <figcaption>
+    <span class="poster-attribution">{poster.attribution}.</span>
+    <a href={posterSource.url} rel="noreferrer">View official source</a>
+    <span class="caption-separator" aria-hidden="true">·</span>
+    <span>Official trailer published by tinyBuild.</span>
+    <a href="https://www.youtube.com/watch?v=KZ6VRXqGEws" rel="noreferrer">Watch on YouTube</a>
+    <span class="caption-separator" aria-hidden="true">·</span>
+    <a href="https://www.graveyardkeeper2.com/" rel="noreferrer">Visit the official game site</a>
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-video-load]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const frame = button.closest<HTMLElement>('[data-video-frame]');
+      const src = button.dataset.src;
+      if (!frame || !src) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = 'Official Graveyard Keeper 2 trailer published by tinyBuild';
+      iframe.width = '1280';
+      iframe.height = '720';
+      iframe.loading = 'eager';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+    }, { once: true });
+  });
+</script>

@@ -1,0 +1,8 @@
+---
+import EvidencePage from '../../templates/EvidencePage.astro';
+import { getRoute } from '../../config/routes.config.ts';
+import { pageContent } from '../../data/page-content.ts';
+const route = getRoute('system-requirements');
+if (!route) throw new Error('Missing system-requirements route configuration');
+---
+<EvidencePage route={route} content={pageContent['system-requirements']} />

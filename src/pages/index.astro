@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FactTable from '../components/content/FactTable.astro';
+import FaqList from '../components/content/FaqList.astro';
+import OfficialMedia from '../components/media/OfficialMedia.astro';
+import OfficialVideo from '../components/media/OfficialVideo.astro';
+import LastVerified from '../components/evidence/LastVerified.astro';
+import SourceList from '../components/evidence/SourceList.astro';
+import { getRoute } from '../config/routes.config.ts';
+import { siteConfig, sources } from '../config/index.ts';
+import { factsFor } from '../data/facts.ts';
+import { mediaById } from '../data/media.ts';
+
+const route = getRoute('home');
+if (!route) throw new Error('Missing home route configuration');
+const officialSite = sources.find((source) => source.id === 'official-site');
+const mediaKitSource = sources.find((source) => source.id === 'official-media-kit');
+const keyArt = mediaById('media:key-art');
+const heroBackdrop = mediaById('media:town-restoration');
+const homeMedia = [mediaById('media:graveyard'), mediaById('media:town-combat')];
+if (!mediaKitSource || !keyArt || !heroBackdrop || homeMedia.some((item) => !item)) throw new Error('Missing official media configuration');
+const homeSources = sources.filter((source) => ['official-site', 'official-media-kit', 'developer-page', 'steam-store', 'steam-news', 'official-trailer', 'playstation-store', 'xbox-store', 'switch-store', 'switch-2-store'].includes(source.id));
+const tasks = [
+  { label: 'Release and price', question: 'When does it launch, and what is the dated Steam price?', href: '/release-date/', state: 'Official date confirmed' },
+  { label: 'PC requirements', question: 'Can my Windows PC meet the current official requirements?', href: '/system-requirements/', state: 'Official Steam specs' },
+  { label: 'Platforms', question: 'Which PC and console stores have official destinations?', href: '/platforms/', state: 'Five destination groups' },
+  { label: 'Multiplayer', question: 'Is co-op or multiplayer officially supported?', href: '/multiplayer/', state: 'Current answer: single-player' },
+  { label: 'Gameplay', question: 'What systems are confirmed before release?', href: '/gameplay/', state: 'High-level systems only' },
+  { label: 'Evidence boundary', question: 'Which deep guides still need released-build proof?', href: '#evidence-boundary', state: 'Recipes and walkthroughs held' },
+];
+const faq = [
+  { question: 'When is Graveyard Keeper 2 releasing?', answer: 'The current official release date is September 22, 2026.' },
+  { question: 'Which platforms are confirmed?', answer: 'Official destinations currently cover Windows PC via Steam, PlayStation 5, Xbox, Nintendo Switch, and Nintendo Switch 2.' },
+  { question: 'Is Graveyard Keeper 2 multiplayer?', answer: 'The official storefronts checked on September 1, 2026 describe single-player or one-player; no verified co-op mode is claimed.' },
+  { question: 'Why are there no recipe or quest walkthroughs yet?', answer: 'The released build is not yet available for versioned, reproducible first-hand testing. Those pages would be incomplete today.' },
+];
+const schema = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: siteConfig.name, url: siteConfig.origin, description: siteConfig.description },
+  { '@context': 'https://schema.org', '@type': 'Organization', name: siteConfig.publisherName, url: siteConfig.origin, logo: new URL(siteConfig.brand.logoPath, siteConfig.origin).toString() },
+];
+---
+
+<BaseLayout title={route.title} description={route.description} path={route.path} schema={schema}>
+  <section class="home-hero shell">
+    <img
+      class="hero-backdrop"
+      src={heroBackdrop.assetPath}
+      width={heroBackdrop.width}
+      height={heroBackdrop.height}
+      alt={heroBackdrop.alt}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="hero-record">
+      <h1>Graveyard Keeper 2</h1>
+      <p class="identity-note">Independent pre-launch field guide · verified 2026-09-01</p>
+      <p class="hero-answer"><strong>Releases September 22, 2026.</strong> Official stores list PC, PlayStation 5, Xbox, Switch, and Switch 2; current listings describe single-player.</p>
+      <p class="hero-boundary">Recipes, quests, maps, and optimization wait for the released build.</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="/release-date/">Inspect release record</a>
+        {officialSite && <a class="official-action" href={officialSite.url} rel="noreferrer">Open official game site</a>}
+      </div>
+      <LastVerified date="2026-09-01" version="Pre-release" />
+    </div>
+    <OfficialVideo poster={keyArt} posterSource={mediaKitSource} />
+    <p class="hero-media-credit">{heroBackdrop.attribution}. <a href={mediaKitSource.url} rel="noreferrer">View official source</a></p>
+  </section>
+
+  <section class="task-router shell" aria-labelledby="task-heading">
+    <div class="section-heading"><h2 id="task-heading">Choose the record you need</h2><p>One user task, one stable owner. Every destination below is live in this local build.</p></div>
+    <ol class="task-ledger">{tasks.map((task) => <li><a href={task.href}><span>{task.label}</span><strong>{task.question}</strong><small>{task.state}</small></a></li>)}</ol>
+  </section>
+
+  <section class="home-section shell" id="verified-facts" aria-labelledby="facts-heading">
+    <div class="section-heading"><h2 id="facts-heading">Confirmed facts, not preview guesses</h2><p>Each answer resolves to an official record and a verification date.</p></div>
+    <FactTable facts={factsFor('home')} sources={sources} caption="Graveyard Keeper 2 pre-launch fact record" />
+  </section>
+
+  <section class="home-section shell gameplay-register" aria-labelledby="systems-heading">
+    <div class="section-heading"><h2 id="systems-heading">What the sequel officially confirms</h2><p>The systems are confirmed at a useful overview level. Their exact rules still need the released build.</p></div>
+    <dl>
+      <div><dt>Graveyard management</dt><dd>The core management role returns, supported by official developer and store descriptions.</dd></div>
+      <div><dt>Zombie automation</dt><dd>Zombie workers power production and automation; exact layouts and worker rules remain unverified.</dd></div>
+      <div><dt>Town restoration</dt><dd>The Town becomes a restoration project, with full sequencing and rewards still to be tested.</dd></div>
+      <div><dt>Fortifications and combat</dt><dd>Official copy confirms defenses and undead-army combat at a high level.</dd></div>
+    </dl>
+    <p><a href="/gameplay/">Read the full confirmed-vs-unknown gameplay record</a></p>
+  </section>
+
+  <section class="home-section shell visual-record" aria-labelledby="visual-heading">
+    <div class="section-heading"><h2 id="visual-heading">The management loop, in official screenshots</h2><p>These pre-release images establish the game’s visual identity. They support the high-level systems shown here, not unreleased recipes or strategies.</p></div>
+    <div class="visual-ledger">
+      {homeMedia.map((item) => item && <OfficialMedia media={item} source={mediaKitSource} />)}
+    </div>
+  </section>
+
+  <section class="home-section shell update-record" aria-labelledby="update-heading">
+    <div><h2 id="update-heading">Latest official release update</h2><p>Official Steam news dated August 26 announced the September 22 release date and pre-order availability. This local snapshot was verified on September 1, 2026.</p></div>
+    <a href="https://steamcommunity.com/app/4358690" rel="noreferrer">Open official Steam news</a>
+  </section>
+
+  <section class="home-section shell boundary-record" id="evidence-boundary" aria-labelledby="boundary-heading">
+    <div class="section-heading"><h2 id="boundary-heading">What waits for release data</h2><p>Completeness is an evidence state, not a word count.</p></div>
+    <div class="boundary-columns">
+      <div><h3>Ready now</h3><ul><li>Release date and dated price snapshot</li><li>Official platform destinations</li><li>Current single-player status</li><li>Windows requirements</li><li>Confirmed gameplay pillars</li></ul></div>
+      <div><h3>Held for reproducible proof</h3><ul><li>Recipes and production chains</li><li>Quest and NPC walkthroughs</li><li>Maps, schedules, and progression</li><li>Best builds and optimization</li><li>Cross-platform performance comparisons</li></ul></div>
+    </div>
+  </section>
+
+  <div class="shell home-section"><FaqList items={faq} /></div>
+  <div class="shell home-section"><SourceList sources={homeSources} /></div>
+</BaseLayout>
