@@ -26,11 +26,39 @@ test('consent loader defaults all Consent Mode v2 keys to denied', async () => {
   }
   assert.match(loader, /window\.location\.hostname !== productionHost/);
   assert.match(loader, /localStorage\.setItem/);
-  assert.match(loader, /select_content/);
+  assert.doesNotMatch(loader, /select_content/);
 });
 
 test('footer exposes a reversible analytics choice only behind the feature flag', async () => {
   const footer = await source('src/components/shell/SiteFooter.astro');
   assert.match(footer, /features\.analytics/);
   assert.match(footer, /id="analytics-choices"/);
+});
+
+test('reject, accept, reopen, and preview sessions enforce consent before loading', async () => {
+  const { setupAnalyticsConsent } = await import('../src/lib/analytics-consent.mjs');
+  function session(hostname) {
+    const elements = Object.fromEntries(['analytics-consent', 'analytics-accept', 'analytics-reject', 'analytics-choices'].map(id => [id, { hidden: true, addEventListener(_, fn) { this.click = fn; } }]));
+    const storage = new Map();
+    const scripts = [];
+    const window = { location: { hostname }, localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) } };
+    const document = { getElementById: id => elements[id], createElement: () => ({}), head: { append: script => scripts.push(script) } };
+    setupAnalyticsConsent({ window, document, measurementId: 'G-TESTONLY', productionHost: 'keeper2fieldguide.com', storageKey: 'consent' });
+    return { window, elements, scripts };
+  }
+  const live = session('keeper2fieldguide.com');
+  assert.equal(live.scripts.length, 0);
+  assert.equal(live.elements['analytics-consent'].hidden, false);
+  live.elements['analytics-reject'].click();
+  assert.equal(live.scripts.length, 0);
+  live.elements['analytics-choices'].click();
+  assert.equal(live.elements['analytics-consent'].hidden, false);
+  live.elements['analytics-accept'].click();
+  live.elements['analytics-accept'].click();
+  assert.equal(live.scripts.length, 1);
+  const commands = live.window.dataLayer.map(args => Array.from(args));
+  const configIndex = commands.findIndex(args => args[0] === 'config');
+  assert.ok(commands.slice(0, configIndex).some(args => args[0] === 'consent' && args[1] === 'update' && args[2].analytics_storage === 'granted'));
+  assert.equal(commands.filter(args => args[0] === 'config').length, 1);
+  assert.equal(session('keeper2fieldguide.pages.dev').window.dataLayer, undefined);
 });

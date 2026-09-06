@@ -55,7 +55,11 @@ assert.match(home, /youtube-nocookie\.com\/embed\/KZ6VRXqGEws/, 'homepage must r
 assert.match(home, /Official trailer published by tinyBuild/, 'homepage must visibly attribute the trailer');
 assert.match(home, /youtube\.com\/watch\?v=KZ6VRXqGEws/, 'homepage must provide the direct YouTube fallback');
 assert.match(home, /graveyardkeeper2\.com/, 'homepage must provide the official-site fallback');
-assert.doesNotMatch(home, /G-[A-Z0-9]{6,}/, 'built output must not contain a GA4 measurement ID');
+for (const [path, html] of pages) {
+  assert.equal(matches(html, /id="analytics-consent"/g).length, 1, `${path} must render one consent panel`);
+  assert.equal(matches(html, /id="analytics-choices"/g).length, 1, `${path} must expose analytics choices`);
+  assert.doesNotMatch(html, /<script[^>]+src="https:\/\/www\.googletagmanager\.com/, 'GA must load only after consent');
+}
 
 for (const item of media) {
   const source = sources.find((entry) => entry.id === item.sourceId);
@@ -81,4 +85,4 @@ assert.equal(ico.readUInt16LE(4), 3, 'ICO must contain three images');
 assert.deepEqual([ico.readUInt8(6), ico.readUInt8(22), ico.readUInt8(38)], [16, 32, 48], 'ICO entries must be 16, 32, and 48 px');
 for (const size of [16, 32, 192, 512]) await access(new URL(`../dist/brand/favicon-${size}.png`, import.meta.url));
 
-console.log('Built output verified: 6 search pages, exact sitemap, metadata, canonicals, links, evidence, official media, video fallbacks, analytics hold, and favicon candidates.');
+console.log('Built output verified: 6 search pages, exact sitemap, metadata, canonicals, links, evidence, official media, video fallbacks, consent-gated analytics, and favicon candidates.');

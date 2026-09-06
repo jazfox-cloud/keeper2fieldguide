@@ -62,17 +62,6 @@ export function setupAnalyticsConsent({ window, document, measurementId, product
   reject.addEventListener('click', denyAnalytics);
   choices?.addEventListener('click', () => { panel.hidden = false; });
 
-  for (const link of document.querySelectorAll('[data-analytics-item]')) {
-    link.addEventListener('click', () => {
-      if (window.localStorage.getItem(storageKey) !== 'granted') return;
-      gtag('event', 'select_content', {
-        content_type: 'navigation_link',
-        item_id: link.dataset.analyticsItem,
-        transport_type: 'beacon',
-      });
-    });
-  }
-
   const storedChoice = window.localStorage.getItem(storageKey);
   if (storedChoice === 'granted') grantAnalytics();
   else if (storedChoice !== 'denied') panel.hidden = false;

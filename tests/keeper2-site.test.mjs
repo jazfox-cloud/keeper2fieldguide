@@ -12,7 +12,7 @@ const expectedRoutes = [
   ['gameplay', '/gameplay/'],
 ];
 
-test('consumer owns the independent site identity and keeps external features off', async () => {
+test('consumer owns the independent site identity and enables only approved analytics', async () => {
   const { features, siteConfig } = await import('../src/config/index.ts');
   assert.equal(siteConfig.name, 'Keeper 2 Field Guide');
   assert.equal(siteConfig.shortName, 'Keeper 2 Field Guide');
@@ -20,7 +20,7 @@ test('consumer owns the independent site identity and keeps external features of
   assert.match(siteConfig.disclaimer, /independent/i);
   assert.match(siteConfig.disclaimer, /not affiliated/i);
   assert.deepEqual(features, {
-    analytics: false,
+    analytics: true,
     advertising: false,
     localization: false,
     sitemap: true,
