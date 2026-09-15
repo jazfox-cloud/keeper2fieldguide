@@ -67,6 +67,7 @@ async function main() {
   const allowedIdentities = (process.env.RESIDUE_ALLOWED_IDENTITY ?? '').split(',').map((item) => item.trim()).filter(Boolean);
   const { siteConfig, sources } = await import('../src/config/index.ts');
   const approvedHosts = [siteConfig.origin, ...sources.map((source) => source.url)].map((url) => new URL(url).hostname);
+  approvedHosts.push('pl31354971.profitableratecpmnetwork.com');
   const findings = await scanPaths(process.cwd(), allowedIdentities, approvedHosts);
   if (findings.length) {
     for (const finding of findings) console.error(`${finding.file}: ${finding.message}`);
