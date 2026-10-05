@@ -22,6 +22,15 @@ test('SEO derives identity from configuration without loading analytics', async 
   assert.doesNotMatch(seo, /G-[A-Z0-9]{6,}/);
 });
 
+test('SEO exposes the shared social preview image to Open Graph and Twitter', async () => {
+  const seo = await source('src/components/seo/SeoHead.astro');
+  assert.match(seo, /new URL\('\/media\/gk2-key-art\.webp', siteConfig\.origin\)/);
+  assert.match(seo, /property="og:image" content=\{socialImage\}/);
+  assert.match(seo, /property="og:image:alt"/);
+  assert.match(seo, /name="twitter:image" content=\{socialImage\}/);
+  assert.match(seo, /name="twitter:image:alt"/);
+});
+
 test('source list exposes evidence metadata', async () => {
   const list = await source('src/components/evidence/SourceList.astro');
   assert.match(list, /evidenceClass/);

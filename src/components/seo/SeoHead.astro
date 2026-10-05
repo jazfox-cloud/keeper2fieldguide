@@ -11,6 +11,8 @@ interface Props {
 
 const { title, description, path, schema = [], noindex = false } = Astro.props;
 const canonical = new URL(path, siteConfig.origin).toString();
+const socialImage = new URL('/media/gk2-key-art.webp', siteConfig.origin).toString();
+const socialImageAlt = 'Graveyard Keeper 2 official key art';
 ---
 
 <meta charset="UTF-8" />
@@ -28,6 +30,10 @@ const canonical = new URL(path, siteConfig.origin).toString();
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content={socialImage} />
+<meta property="og:image:alt" content={socialImageAlt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={socialImage} />
+<meta name="twitter:image:alt" content={socialImageAlt} />
 <title>{title}</title>
 {schema.map((item) => <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />)}
