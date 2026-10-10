@@ -12,8 +12,8 @@ export const routes: RouteConfig[] = [
   {
     id: 'release-date',
     path: '/release-date/',
-    title: 'Graveyard Keeper 2 Release Date, Price & Pre-Order Details',
-    description: 'Graveyard Keeper 2 launches September 22, 2026. Check the dated Steam US price snapshot, pre-order details, and official store links.',
+    title: 'Graveyard Keeper 2 Release Date, Price & Official Stores',
+    description: 'Graveyard Keeper 2 released September 22, 2026. See the current Steam US price check, historical pre-order snapshot, and official store links.',
     published: true,
     sitemap: true,
   },

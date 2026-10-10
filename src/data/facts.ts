@@ -4,7 +4,7 @@ const verified = '2026-09-01';
 const version = 'Pre-release';
 
 export const facts: FactRecord[] = [
-  { id: 'fact:release-date', label: 'Release date', value: 'September 22, 2026', required: true, sourceIds: ['official-site', 'steam-store', 'steam-news'], evidenceClass: 'OFFICIAL', gameVersion: version, lastVerified: verified, publicAllowed: true, editorialJudgment: false, consumers: ['home', 'release-date', 'platforms'] },
+  { id: 'fact:release-date', label: 'Release date', value: 'September 22, 2026 (released)', required: true, sourceIds: ['official-site', 'steam-store', 'steam-news'], evidenceClass: 'OFFICIAL', gameVersion: 'Released', lastVerified: '2026-10-09', publicAllowed: true, editorialJudgment: false, consumers: ['home', 'release-date', 'platforms'] },
   { id: 'fact:developer', label: 'Developer', value: 'Lazy Bear Games', required: true, sourceIds: ['developer-page', 'steam-store'], evidenceClass: 'OFFICIAL', gameVersion: version, lastVerified: verified, publicAllowed: true, editorialJudgment: false, consumers: ['home'] },
   { id: 'fact:publisher', label: 'Publisher', value: 'tinyBuild', required: true, sourceIds: ['official-site', 'steam-store'], evidenceClass: 'OFFICIAL', gameVersion: version, lastVerified: verified, publicAllowed: true, editorialJudgment: false, consumers: ['home'] },
   { id: 'fact:steam-price-base', label: 'Steam US base price snapshot', value: '$24.99 USD', required: true, sourceIds: ['steam-store'], evidenceClass: 'OFFICIAL', gameVersion: version, lastVerified: verified, publicAllowed: true, editorialJudgment: false, consumers: ['home', 'release-date'], boundary: 'Dated US Steam snapshot; regional and store prices may differ.' },
