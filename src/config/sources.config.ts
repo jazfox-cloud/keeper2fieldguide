@@ -30,8 +30,8 @@ export const sources: SourceRecord[] = [
     evidenceClass: 'OFFICIAL', gameVersion: 'Pre-release', lastVerified: '2026-09-01', publicAllowed: true, editorialJudgment: false,
   },
   {
-    id: 'steam-news', label: 'Official Steam Community and news', url: 'https://steamcommunity.com/app/4358690',
-    evidenceClass: 'OFFICIAL', gameVersion: 'Pre-release', lastVerified: '2026-09-01', publicAllowed: true, editorialJudgment: false,
+    id: 'steam-news', label: 'Official Steam launch announcement and news', url: 'https://steamcommunity.com/app/4358690/announcements/',
+    evidenceClass: 'OFFICIAL', gameVersion: 'Released', lastVerified: '2026-10-09', publicAllowed: true, editorialJudgment: false,
   },
   {
     id: 'official-trailer', label: 'tinyBuild official trailer on YouTube', url: 'https://www.youtube.com/watch?v=KZ6VRXqGEws',

@@ -27,29 +27,29 @@ export interface PageDefinition {
 
 export const pageContent: Record<string, PageDefinition> = {
   'release-date': {
-    heading: 'Graveyard Keeper 2 Release Date and Pre-Order Details',
-    answer: 'Graveyard Keeper 2 is scheduled to release on September 22, 2026.',
-    summary: 'On Steam in the United States, the checked pre-release snapshot showed a $24.99 base price and a $19.99 pre-order price (20% off) on September 1, 2026. Prices and promotions can differ by region and store.',
+    heading: 'Graveyard Keeper 2 Release Date and Price History',
+    answer: 'Graveyard Keeper 2 was released on September 22, 2026, as confirmed by the developer’s official launch announcement.',
+    summary: 'Steam showed a US$24.99 purchase price when checked October 9, 2026. The US$19.99 pre-order price (20% off) was a historical September 1 snapshot, not a current offer. Prices and promotions vary by region and store.',
     factIds: ['fact:release-date', 'fact:steam-price-base', 'fact:steam-price-preorder', 'fact:platforms'],
     table: {
-      caption: 'Official store status checked September 1, 2026',
-      headers: ['Store', 'Current status', 'Price snapshot', 'Checked'],
+      caption: 'Dated official store observations; historical snapshots are not current offers',
+      headers: ['Store', 'Status at check', 'Price snapshot', 'Checked'],
       rows: [
-        { cells: ['Steam (US)', 'Pre-order available', '$24.99 base / $19.99 pre-order', '2026-09-01'], sourceIds: ['steam-store'] },
-        { cells: ['PlayStation Store', 'Official concept page live', 'Check official regional store', '2026-09-01'], sourceIds: ['playstation-store'] },
-        { cells: ['Xbox Store', 'Official listing live', 'Check official regional store', '2026-09-01'], sourceIds: ['xbox-store'] },
-        { cells: ['Nintendo Switch', 'Official listing live', 'Check official regional store', '2026-09-01'], sourceIds: ['switch-store'] },
-        { cells: ['Nintendo Switch 2', 'Official listing live', 'Check official regional store', '2026-09-01'], sourceIds: ['switch-2-store'] },
+        { cells: ['Steam (US)', 'Released; purchase available', 'US$24.99 current check; US$19.99 pre-order was historical', '2026-10-09'], sourceIds: ['steam-store'] },
+        { cells: ['PlayStation Store', 'Historical listing snapshot', 'Check current regional store', '2026-09-01'], sourceIds: ['playstation-store'] },
+        { cells: ['Xbox Store', 'Historical listing snapshot', 'Check current regional store', '2026-09-01'], sourceIds: ['xbox-store'] },
+        { cells: ['Nintendo Switch', 'Historical listing snapshot', 'Check current regional store', '2026-09-01'], sourceIds: ['switch-store'] },
+        { cells: ['Nintendo Switch 2', 'Historical listing snapshot', 'Check current regional store', '2026-09-01'], sourceIds: ['switch-2-store'] },
       ],
     },
     sections: [
-      { heading: 'What the dated price means', paragraphs: ['The Steam figures are a US-dollar snapshot, not an evergreen global price. Open the official store for your region before purchasing.'], bullets: ['Currency, taxes, and platform pricing can differ.', 'The 20% Steam promotion is time-sensitive.', 'This page will keep its URL after launch and replace pre-order language with current availability.'] },
-      { heading: 'What changes on launch day', paragraphs: ['We will recheck the release state, current prices, every official destination, and any expired promotional language. A release announcement alone will not unlock unverified recipes, quests, maps, or progression guides.'] },
+      { heading: 'What the dated price means', paragraphs: ['The Steam figures are a US-dollar snapshot, not an evergreen global price. Open the official store for your region before purchasing.'], bullets: ['Currency, taxes, and platform pricing can differ.', 'The 20% Steam promotion is time-sensitive.', 'The historical pre-order snapshot is not an active purchase offer.'] },
+      { heading: 'Launch status and evidence boundary', paragraphs: ['The developer announced the game was out on September 22, 2026. Current purchase prices require a regional store check; release confirmation alone does not validate recipes, quests, maps, or progression guides.'] },
     ],
     faqs: [
-      { question: 'When does Graveyard Keeper 2 come out?', answer: 'The current official date is September 22, 2026.' },
-      { question: 'How much does Graveyard Keeper 2 cost?', answer: 'The checked Steam US snapshot was $24.99, or $19.99 during the displayed 20% pre-order promotion. Check your regional store for the current price.' },
-      { question: 'Is the pre-order price permanent?', answer: 'No. It is a dated promotional snapshot and may change or expire.' },
+      { question: 'When did Graveyard Keeper 2 come out?', answer: 'The game was released on September 22, 2026.' },
+      { question: 'How much does Graveyard Keeper 2 cost?', answer: 'Steam listed US$24.99 when checked October 9, 2026. The US$19.99 pre-order price was a September 1 historical snapshot, not a current promotion. Check your regional store.' },
+      { question: 'Is the pre-order price permanent?', answer: 'No. The US$19.99 offer was a historical pre-order snapshot from September 1, 2026 and is not a current promotion.' },
     ],
     sourceIds: ['official-site', 'steam-store', 'steam-news', 'playstation-store', 'xbox-store', 'switch-store', 'switch-2-store'],
     related: [{ label: 'See every confirmed platform', href: '/platforms/' }, { label: 'Compare PC requirements', href: '/system-requirements/' }, { label: 'Check multiplayer status', href: '/multiplayer/' }],
@@ -57,7 +57,7 @@ export const pageContent: Record<string, PageDefinition> = {
   'system-requirements': {
     heading: 'Graveyard Keeper 2 PC System Requirements',
     answer: 'The official Steam listing requires 64-bit Windows 10, DirectX 12, and 2 GB of available storage.',
-    summary: 'Steam currently lists 4 GB RAM at minimum and 8 GB RAM as recommended. Compare every component below, then recheck Steam before launch in case the requirements change.',
+    summary: 'Steam currently lists 4 GB RAM at minimum and 8 GB RAM as recommended. Compare every component below, then recheck Steam for any subsequent requirements changes.',
     factIds: ['fact:pc-os', 'fact:pc-ram', 'fact:pc-directx', 'fact:pc-storage'],
     table: {
       caption: 'Official Windows PC requirements from Steam',
@@ -98,7 +98,7 @@ export const pageContent: Record<string, PageDefinition> = {
       ],
     },
     sections: [
-      { heading: 'Choosing a store', paragraphs: ['Use the official destination for the hardware and region you intend to play on. This pre-launch guide does not claim that one platform runs better than another because no first-hand cross-platform test is available.'] },
+      { heading: 'Choosing a store', paragraphs: ['Use the official destination for the hardware and region you intend to play on. This guide does not claim that one platform runs better than another because no first-hand cross-platform test is available.'] },
       { heading: 'Still unknown', paragraphs: ['Mac and Linux availability, cross-save, and cross-platform performance comparisons remain unverified in the evidence used here. These are not negative claims; they are explicit evidence gaps.'] },
     ],
     faqs: [

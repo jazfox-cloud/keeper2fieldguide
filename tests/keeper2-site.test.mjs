@@ -27,6 +27,19 @@ test('consumer owns the independent site identity and enables only approved anal
   });
 });
 
+test('release pages use launched status and label old pre-order prices as historical', async () => {
+  const [home, content, routes] = await Promise.all([
+    readFile(new URL('../src/pages/index.astro', import.meta.url), 'utf8'),
+    readFile(new URL('../src/data/page-content.ts', import.meta.url), 'utf8'),
+    readFile(new URL('../src/config/routes.config.ts', import.meta.url), 'utf8'),
+  ]);
+  assert.match(home, /Released September 22, 2026/);
+  assert.doesNotMatch(home, /Independent pre-launch|Releases September 22, 2026/);
+  assert.match(content, /was released on September 22, 2026/);
+  assert.match(content, /historical September 1 snapshot/);
+  assert.match(routes, /released September 22, 2026/);
+});
+
 test('the exact six approved search routes own navigation and sitemap', async () => {
   const { navigation, routes } = await import('../src/config/index.ts');
   assert.deepEqual(routes.map(({ id, path }) => [id, path]), expectedRoutes);
@@ -59,7 +72,7 @@ test('every approved official destination has eligible dated source metadata', a
   assert.ok(sources.length >= 9);
   assert.ok(sources.every((source) => source.evidenceClass === 'OFFICIAL'));
   assert.ok(sources.every((source) => source.publicAllowed));
-  assert.ok(sources.every((source) => source.lastVerified === '2026-09-01'));
+  assert.ok(sources.every((source) => source.lastVerified === (source.id === 'steam-news' ? '2026-10-09' : '2026-09-01')));
   for (const host of expectedHosts) {
     assert.ok(sources.some((source) => new URL(source.url).hostname === host), `missing source host: ${host}`);
   }
